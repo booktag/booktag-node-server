@@ -29,3 +29,21 @@ model Post {
   author    User?    @relation(fields: [authorId], references: [id])
   authorId  Int?
 }
+
+model Job {
+  id        Int      @id @default(autoincrement())
+  bookUrl   String?
+  status    JobStatus @default(PENDING)
+  resultUrl String?
+  message   String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum JobStatus {
+  PENDING
+  RUNNING
+  DONE
+  FAILED
+}

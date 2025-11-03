@@ -10,14 +10,22 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './user.service';
 import { PostsService } from './post.service';
-import { User as UserModel, Post as PostModel } from 'generated/prisma';
+import {User as UserModel, Post as PostModel, Job} from 'generated/prisma';
+import {WorkerService} from "./worker.service";
 
 @Controller()
 export class AppController {
     constructor(
         private readonly userService: UsersService,
         private readonly postService: PostsService,
+        private readonly workerService: WorkerService,
     ) {}
+
+    @Post('startParseJob')
+    async startParseJob(
+    ): Promise<Job> {
+        return this.workerService.startParseJob();
+    }
 
     @Get('post/:id')
     async getPostById(@Param('id') id: string): Promise<PostModel | null> {
